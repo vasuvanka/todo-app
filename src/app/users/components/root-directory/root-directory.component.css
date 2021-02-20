@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+}
+
+.folder {
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+    min-height: 100px;
+    margin: 10px; 
+    background: #e0e0e0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

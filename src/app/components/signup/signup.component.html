@@ -1,0 +1,28 @@
+
+<mat-card>
+    <mat-card-title>Registration</mat-card-title>
+    <mat-card-content>
+        <form class="example-form" [formGroup]="signupForm" (ngSubmit)="onSignup()">
+            <mat-form-field class="example-full-width">
+                <mat-label>Full Name</mat-label>
+                <input matInput placeholder="Full Name" formControlName="name"/>
+                <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+              </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>User Email</mat-label>
+              <input type="email" matInput placeholder="Ex. hello@abc.in" formControlName="email"/>
+              <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+          
+            <mat-form-field class="example-full-width">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password" placeholder="Password"/>
+              <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button  mat-raised-button color="primary" (click)="onSignup()" [disabled]="!signupForm.valid">Sign Up</button>
+    </mat-card-actions>
+</mat-card>

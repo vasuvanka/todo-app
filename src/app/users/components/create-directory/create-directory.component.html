@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Directory Name</h1>
+<form mat-dialog-content [formGroup]="directoryForm">
+    <mat-form-field>
+        <mat-label>Directory Name</mat-label>
+        <input matInput formControlName="name"/>
+        <mat-error *ngIf="name.invalid">Directory name not valid</mat-error>
+      </mat-form-field>
+</form>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!directoryForm.valid" (click)="onCreate()">Create</button>
+</div>

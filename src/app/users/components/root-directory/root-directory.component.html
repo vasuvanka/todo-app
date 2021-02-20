@@ -1,0 +1,7 @@
+<div class="container">
+    <div class="folder" *ngFor="let dir of dirs; trackBy: trackBy" [routerLink]="['.', dir.id]"
+    routerLinkActive="active">
+        <mat-icon>folder</mat-icon>
+        <span>{{dir.title}}</span>
+    </div>
+</div>
