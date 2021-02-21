@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
-import { CreateDirectoryComponent } from './components/create-directory/create-directory.component';
-import { CreateTodoComponent } from './components/create-todo/create-todo.component';
+import { DefaultDirectoryComponent } from './components/default-directory/default-directory.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { RootDirectoryComponent } from './components/root-directory/root-directory.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { ViewDirectoryComponent } from './components/view-directory/view-directory.component';
 
@@ -17,15 +15,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: RootDirectoryComponent
+        component: DefaultDirectoryComponent
       },
       {
         path: ':id',
         component: ViewDirectoryComponent
-      },
-      {
-        path: ':id/todos',
-        component: CreateTodoComponent
       }
     ]
   },
@@ -33,10 +27,6 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard],
-  },
-  {
-    path: '**',
-    redirectTo: 'dir'
   }
 ];
 

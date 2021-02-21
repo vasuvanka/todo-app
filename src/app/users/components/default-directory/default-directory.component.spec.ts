@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RootDirectoryComponent } from './root-directory.component';
+import { DefaultDirectoryComponent } from './default-directory.component';
 
-describe('RootDirectoryComponent', () => {
-  let component: RootDirectoryComponent;
-  let fixture: ComponentFixture<RootDirectoryComponent>;
+describe('DefaultDirectoryComponent', () => {
+  let component: DefaultDirectoryComponent;
+  let fixture: ComponentFixture<DefaultDirectoryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RootDirectoryComponent ]
+      declarations: [ DefaultDirectoryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RootDirectoryComponent);
+    fixture = TestBed.createComponent(DefaultDirectoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -12,8 +12,7 @@ import { TodoService } from '../../services/todo.service';
 })
 export class ViewDirectoryComponent implements OnInit {
   todos: Todo[] = []
-  constructor(private router: Router,
-    private todoService: TodoService,
+  constructor(private todoService: TodoService,
     private notificationService: NotificationService,
     private activatedRoute: ActivatedRoute) { }
 
@@ -22,7 +21,7 @@ export class ViewDirectoryComponent implements OnInit {
       const todos = await this.todoService.getTodos(this.activatedRoute.snapshot.params['id'])
       if (Array.isArray(todos)) {
         this.todos = todos
-      } else {
+      } else if (todos != null) {
         throw new Error((todos as GeneralResponse).message);
       }
     } catch (err) {

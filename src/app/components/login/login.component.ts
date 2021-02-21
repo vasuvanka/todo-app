@@ -30,7 +30,7 @@ export class LoginComponent {
       if ((response as LoginSuccess).token) {
         this.storageService.setItem('token', (response as LoginSuccess).token)
         this.authService.updateUser(this.authService.decodeToken((response as LoginSuccess).token) as JwtPayload)
-        this.router.navigateByUrl('/users/dir')
+        this.router.navigateByUrl('/home/dir')
         return
       }
       throw new Error((response as GeneralResponse).message)

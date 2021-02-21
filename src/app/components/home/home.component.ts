@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['users', 'dir'])
+      this.router.navigate(['home', 'dir'])
     }
   }
 

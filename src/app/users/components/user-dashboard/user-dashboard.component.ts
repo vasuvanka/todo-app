@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Directory } from 'src/app/core/models/directory';
 import { Todo } from 'src/app/core/models/todo';
+import { GeneralResponse } from 'src/app/core/models/user';
 import { DirectoryService } from 'src/app/core/services/directory.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TodoService } from '../../services/todo.service';
@@ -14,15 +15,34 @@ import { CreateTodoComponent } from '../create-todo/create-todo.component';
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
-export class UserDashboardComponent {
+export class UserDashboardComponent implements OnInit, OnChanges {
 
-  dirs: Directory[] = []
+  dirs: Directory[] = [Directory.fromJson({ title: 'General', id: '0' })]
+  selectedDirId: string = "0"
+
   constructor(public dialog: MatDialog,
     private dirService: DirectoryService,
-    private notificationService: NotificationService,
-    private router: Router,
-    private route: ActivatedRoute) { }
+    private todoService: TodoService,
+    private notificationService: NotificationService) { }
 
+
+  async ngOnInit() {
+    try {
+      const dirs = await this.dirService.getDirectories("0");
+      if (Array.isArray(dirs)) {
+        this.dirs.push(...dirs)
+      } else if (dirs != null) {
+        throw new Error((dirs as GeneralResponse).message);
+      }
+    } catch (err) {
+      this.notificationService.notify(err.message)
+    }
+  }
+
+  ngOnChanges() {
+    console.log(this.selectedDirId);
+
+  }
 
   async createDir() {
     const dialogRef = this.dialog.open(CreateDirectoryComponent, {
@@ -32,9 +52,11 @@ export class UserDashboardComponent {
     try {
       const dirForm = await dialogRef.afterClosed().toPromise()
       if ((dirForm || {}).name) {
-        const parentId = this.route.snapshot.params['id'] || "0"
-        const newDir = Directory.fromJson({ title: dirForm.name, parentId })
+        const newDir = Directory.fromJson({ title: dirForm.name, parentId: "0" })
         const dir = await this.dirService.createDirectory(newDir)
+        if (typeof dir != "string") {
+          this.dirs.push(dir)
+        }
         this.notificationService.notify(`${dir.title} created`)
       }
     } catch (err) {
@@ -43,10 +65,25 @@ export class UserDashboardComponent {
 
   }
 
-  redirect() {
-    this.router.navigate([this.route.snapshot.params['id'] || "0", 'todos'], {
-      relativeTo: this.route
-    })
+  async createTodo() {
+    const dialogRef = this.dialog.open(CreateTodoComponent, {
+      width: '350px'
+    });
+
+    try {
+      const todoForm = await dialogRef.afterClosed().toPromise()
+      if (todoForm) {
+        const todoObj = Todo.fromJson(todoForm)
+        todoObj.dirId = this.selectedDirId
+        const todo = await this.todoService.createTodo(todoObj)
+        if (typeof todo != "string") {
+          this.notificationService.notify(`${todo.title} created`)
+        }
+      }
+    } catch (err) {
+      this.notificationService.notify(err.message)
+    }
+
   }
 
 }

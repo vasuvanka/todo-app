@@ -6,3 +6,15 @@
     display: flex;
     flex-direction: row;
 }
+
+.side-menu {
+    min-width: 200px;
+}
+
+mat-list-item {
+    cursor: pointer;
+}
+
+.router-link-active {
+    background: #e0e0e0;;
+}
