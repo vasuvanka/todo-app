@@ -1,10 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Todo } from 'src/app/core/models/todo';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-create-todo',
@@ -20,9 +15,7 @@ export class CreateTodoComponent {
   })
   minDate = new Date()
 
-  constructor(private todoService: TodoService,
-    private notificationService: NotificationService,
-    private activatedRoute: ActivatedRoute) { }
+  constructor() { }
 
   get title(): AbstractControl {
     return this.todoForm.get('title')
@@ -35,18 +28,6 @@ export class CreateTodoComponent {
   }
   get priority(): AbstractControl {
     return this.todoForm.get('priority')
-  }
-
-  async onCreate() {
-    try {
-      const dirId = this.activatedRoute.snapshot.params['id'] || "0"
-      const newTodo = Todo.fromJson(this.todoForm.value)
-      newTodo.dirId = dirId
-      const todo = await this.todoService.createTodo(newTodo)
-      this.notificationService.notify(`${todo.title} created`)
-    } catch (err) {
-      this.notificationService.notify(err.message)
-    }
   }
 
 }

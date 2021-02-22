@@ -1,1 +1,65 @@
-<p>{{todos.length}}</p>
+<mat-list>
+    <div mat-subheader class="subheader">
+        <span>Todos</span>
+        <button mat-mini-fab color="accent" (click)="createTodo()" matTooltip="Create Todo">
+            <mat-icon>add</mat-icon>
+          </button>
+    </div>
+</mat-list>
+
+  <mat-accordion class="example-headers-align" multi>
+
+    <mat-expansion-panel *ngFor="let todo of todos">
+      <mat-expansion-panel-header>
+        <mat-panel-title [ngClass]="{'done': todo.status == 'completed'}">
+            <mat-icon [color]="getPriority(todo)" [matTooltip]="todo.priority">assignment_turned_in</mat-icon>
+          {{todo.title}}
+        </mat-panel-title>
+        <mat-panel-description>
+            {{todo.dueDate | date}}
+            <mat-icon [color]="getColor(todo)" [matTooltip]="todo.status">star</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <p>Priority : {{todo.priority}}</p>
+      <p>{{todo.description}}</p>
+
+      <div>
+
+        <form [formGroup]="statusForm">
+ 
+          <div>
+            <label>Priority: </label>
+            <mat-radio-group formControlName="priority">
+              <mat-radio-button [value]="todo.id+'.low'">Low</mat-radio-button>
+              <mat-radio-button [value]="todo.id+'.medium'">Medium</mat-radio-button>
+              <mat-radio-button [value]="todo.id+'.high'">High</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div>
+            <label>Status: </label>
+            <mat-radio-group formControlName="status">
+              <mat-radio-button [value]="todo.id+'.inprogress'">Inprogress</mat-radio-button>
+              <mat-radio-button [value]="todo.id+'.completed'">Completed</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+  </form>
+
+      </div>
+      <mat-action-row>
+        <button mat-icon-button (click)="share(todo)" matTooltip="Share Todo">
+            <mat-icon>share</mat-icon>
+        </button>
+        <button mat-icon-button (click)="remove(todo)" matTooltip="Remove Todo">
+            <mat-icon color="warn">delete</mat-icon>
+        </button>
+      </mat-action-row>
+  
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+  <div class="center" *ngIf="todos.length == 0">
+    <span>No todos yet.</span>
+</div>

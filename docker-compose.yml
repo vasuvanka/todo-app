@@ -1,0 +1,42 @@
+version: '3'
+services:
+    todo_app_api:
+        image: todo_app_api:latest
+        environment: 
+            - GO_DBURI=${GO_DBURI}
+            - GO_PORT=${GO_PORT}
+            - GO_ENV=${GO_ENV}
+        build:
+            context: .
+            dockerfile: Dockerfile1
+        ports: 
+            - 8081:8081
+        networks: 
+            - mongoclusternet
+
+    todo_app:
+        image: todo_app:latest
+        environment: 
+            - NODE_PORT=${NODE_PORT}
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports: 
+            - 3000:3000
+        networks: 
+            - mongoclusternet
+
+    mongo_node1:
+        image: mongo:latest
+        restart: always
+        ports:
+            - 27018:27018
+        volumes: 
+            - /home/vasu/mongodb/data:/data/db
+        networks: 
+            - mongoclusternet
+        command: mongod --port 27018
+
+networks: 
+    mongoclusternet:
+        driver : bridge

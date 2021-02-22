@@ -1,6 +1,5 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Directory } from 'src/app/core/models/directory';
 import { Todo } from 'src/app/core/models/todo';
 import { GeneralResponse } from 'src/app/core/models/user';
@@ -15,14 +14,12 @@ import { CreateTodoComponent } from '../create-todo/create-todo.component';
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
-export class UserDashboardComponent implements OnInit, OnChanges {
+export class UserDashboardComponent implements OnInit {
 
   dirs: Directory[] = [Directory.fromJson({ title: 'General', id: '0' })]
-  selectedDirId: string = "0"
 
   constructor(public dialog: MatDialog,
     private dirService: DirectoryService,
-    private todoService: TodoService,
     private notificationService: NotificationService) { }
 
 
@@ -35,13 +32,8 @@ export class UserDashboardComponent implements OnInit, OnChanges {
         throw new Error((dirs as GeneralResponse).message);
       }
     } catch (err) {
-      this.notificationService.notify(err.message)
+      this.notificationService.notify((err.error || err).message || 'Something went wrong!')
     }
-  }
-
-  ngOnChanges() {
-    console.log(this.selectedDirId);
-
   }
 
   async createDir() {
@@ -60,28 +52,7 @@ export class UserDashboardComponent implements OnInit, OnChanges {
         this.notificationService.notify(`${dir.title} created`)
       }
     } catch (err) {
-      this.notificationService.notify(err.message)
-    }
-
-  }
-
-  async createTodo() {
-    const dialogRef = this.dialog.open(CreateTodoComponent, {
-      width: '350px'
-    });
-
-    try {
-      const todoForm = await dialogRef.afterClosed().toPromise()
-      if (todoForm) {
-        const todoObj = Todo.fromJson(todoForm)
-        todoObj.dirId = this.selectedDirId
-        const todo = await this.todoService.createTodo(todoObj)
-        if (typeof todo != "string") {
-          this.notificationService.notify(`${todo.title} created`)
-        }
-      }
-    } catch (err) {
-      this.notificationService.notify(err.message)
+      this.notificationService.notify((err.error || err).message || 'Something went wrong!')
     }
 
   }

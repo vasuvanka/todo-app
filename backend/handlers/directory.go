@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
+	vd "github.com/bytedance/go-tagexpr/v2/validator"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/globalsign/mgo/bson"
 	"github.com/julienschmidt/httprouter"
@@ -97,7 +97,11 @@ func CreateDir(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 	dir.CreatedBy = claims["id"].(string)
 
-	fmt.Println(dir)
+	valid := vd.Validate(dir)
+	if valid != nil {
+		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: valid.Error() })
+		return
+	}
 
 	dbDir, err := controllers.CreateDir(dir)
 	if err != nil {

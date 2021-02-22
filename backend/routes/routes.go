@@ -68,7 +68,7 @@ func (s *Server) Init() {
 
 // Bootstrap - Start the server
 func (s *Server) Bootstrap() {
-	// s.Router.ServeFiles("/*",http.Dir(s.Config.FEPath))
+	// s.Router.ServeFiles("/",http.Dir(s.Config.FEPath))
 	fmt.Println("Server listening on " + s.Config.Port)
 	handler := cors.AllowAll().Handler(s.Router)
 	log.Fatal(http.ListenAndServe(":"+s.Config.Port, handler))

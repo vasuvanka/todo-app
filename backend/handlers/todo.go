@@ -11,6 +11,8 @@ import (
 	"github.com/vasuvanka/todo-app/backend/controllers"
 	"github.com/vasuvanka/todo-app/backend/models"
 	"github.com/vasuvanka/todo-app/backend/shared"
+
+	vd "github.com/bytedance/go-tagexpr/v2/validator"
 )
 
 //GetUserTodos - get user todos handler
@@ -110,6 +112,13 @@ func CreateTodo(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: err.Error()})
 		return
 	}
+	// body validation
+	valid := vd.Validate(todo)
+	if valid != nil {
+		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: valid.Error() })
+		return
+	}
+
 	todo.CreatedBy = claims["id"].(string)
 	dbTodo, err := controllers.CreateTodo(todo)
 	if err != nil {
@@ -134,6 +143,13 @@ func ShareTodo(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: err.Error()})
 		return
 	}
+
+	valid := vd.Validate(share)
+	if valid != nil {
+		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: valid.Error() })
+		return
+	}
+
 	err := controllers.ShareTodo(todoID, fromUserID, share.Email)
 	if err != nil {
 		shared.SendError(w, models.Response{Status: http.StatusInternalServerError, Message: err.Error()})

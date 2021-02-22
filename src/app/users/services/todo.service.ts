@@ -30,4 +30,8 @@ export class TodoService {
   removeTodo(id: string): Promise<GeneralResponse> {
     return this.http.delete<GeneralResponse>(`${environment.api}/todos/${id}`).toPromise()
   }
+
+  shareTodo(id: string, email: string): Promise<GeneralResponse> {
+    return this.http.post<any>(`${environment.api}/todos/${id}/share`, { email }).toPromise()
+  }
 }

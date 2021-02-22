@@ -12,15 +12,18 @@ import { ViewDirectoryComponent } from './components/view-directory/view-directo
 import { CreateTodoComponent } from './components/create-todo/create-todo.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { DefaultDirectoryComponent } from './components/default-directory/default-directory.component';
+import { ShareTodoComponent } from './components/share-todo/share-todo.component';
 
 @NgModule({
   declarations: [ProfileComponent,
     UserDashboardComponent, CreateDirectoryComponent,
-    ViewDirectoryComponent, CreateTodoComponent, DefaultDirectoryComponent],
+    ViewDirectoryComponent, CreateTodoComponent, DefaultDirectoryComponent, ShareTodoComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -30,7 +33,9 @@ import { DefaultDirectoryComponent } from './components/default-directory/defaul
     MatNativeDateModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule,
+    MatExpansionModule
   ]
 })
 export class UsersModule { }

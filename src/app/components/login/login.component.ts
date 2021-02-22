@@ -37,7 +37,7 @@ export class LoginComponent {
     } catch (err) {
       console.log(err);
 
-      this.notificationService.notify((err || {}).message || 'Something went wrong!')
+      this.notificationService.notify((err.error || {}).message || 'Something went wrong!')
     }
   }
 

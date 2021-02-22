@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	vd "github.com/bytedance/go-tagexpr/v2/validator"
 	"github.com/julienschmidt/httprouter"
 	"github.com/vasuvanka/todo-app/backend/controllers"
 	"github.com/vasuvanka/todo-app/backend/models"
@@ -24,7 +25,12 @@ func Signup(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: err.Error()})
 		return
 	}
-	// validate user input
+	
+	valid := vd.Validate(singup)
+	if valid != nil {
+		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: valid.Error() })
+		return
+	}
 
 	if err := controllers.Singup(singup); err != nil {
 		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: err.Error()})
@@ -42,6 +48,11 @@ func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&login); err != nil {
 		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: err.Error()})
+		return
+	}
+	valid := vd.Validate(login)
+	if valid != nil {
+		shared.SendError(w, models.Response{Status: http.StatusBadRequest, Message: valid.Error() })
 		return
 	}
 

@@ -1,6 +1,5 @@
-<mat-card>
-  <h1 mat-mard-title>Create Todo</h1>
-<form mat-card-content [formGroup]="todoForm">
+<h1 mat-dialog-title>Create Todo</h1>
+<form mat-dialog-content [formGroup]="todoForm">
     <mat-form-field>
         <mat-label>Title</mat-label>
         <input matInput formControlName="title"/>
@@ -28,7 +27,6 @@
       </mat-radio-group>
       </div>
 </form>
-<div mat-card-actions>
-    <button mat-raised-button color="primary" [disabled]="!todoForm.valid" (click)="onCreate()">Create</button>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" [disabled]="!todoForm.valid" [mat-dialog-close]="todoForm.value">Create</button>
 </div>
-</mat-card>

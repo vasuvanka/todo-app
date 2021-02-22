@@ -2,8 +2,8 @@ package models
 
 //Login - login object
 type Login struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Email    string `vd:"email($)" json:"email"`
+	Password string `vd:"len($)>1" json:"password"`
 }
 
 //LoginResponse - login response
@@ -19,9 +19,9 @@ type Response struct {
 
 //Signup - login object
 type Signup struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
-	Name     string `json:"name" validate:"required"`
+	Email    string `vd:"email($); msg:'Valid email required'" json:"email"`
+	Password string `vd:"len($)>3; msg:'Password required'" json:"password"`
+	Name     string `vd:"len($)>1; msg:'Name required'" json:"name"`
 }
 
 //JwtUserPayload - jwt user payload
@@ -33,5 +33,5 @@ type JwtUserPayload struct {
 
 //ShareTodo - share todo
 type ShareTodo struct {
-	Email string `json:"email"`
+	Email string `vd:"email($); msg:'Valid email required'" json:"email"`
 }

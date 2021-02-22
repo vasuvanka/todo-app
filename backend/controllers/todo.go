@@ -74,6 +74,16 @@ func ShareTodo(todoID, fromUserID, toUserEmail string) error {
 	if dbTodo.CreatedBy != fromUserID {
 		return errors.New("todo was created by others")
 	}
+
+	user, err := iUser.GetUserByID(fromUserID)
+	if err != nil {
+		return err
+	}
+
+	if user.Email == toUserEmail {
+		return errors.New("operation not permitted")
+	}
+
 	exist, err := iUser.UserExist(toUserEmail)
 	if err != nil {
 		return err

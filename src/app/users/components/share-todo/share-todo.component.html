@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Share</h1>
+<form mat-dialog-content [formGroup]="shareForm">
+    <mat-form-field>
+        <mat-label>User Email</mat-label>
+        <input matInput formControlName="email"/>
+        <mat-error *ngIf="email.invalid">Email not valid</mat-error>
+      </mat-form-field>
+</form>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!shareForm.valid" (click)="onShare()">Share</button>
+</div>

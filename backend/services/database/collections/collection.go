@@ -27,9 +27,9 @@ func (db *Mongo) Dirs() *mgo.Collection {
 
 //Index - will index db fields
 func (db *Mongo) Index() error {
-	if err := db.Dirs().DropAllIndexes(); err != nil {
-		return err
-	}
+	// if err := db.Dirs().DropAllIndexes(); err != nil {
+	// 	return err
+	// }
 	idx := mgo.Index{
 		Key:      []string{"email"},
 		Unique:   true,

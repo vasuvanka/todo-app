@@ -4,7 +4,6 @@
 
 .container {
     display: flex;
-    flex-direction: row;
 }
 
 .side-menu {
@@ -17,4 +16,13 @@ mat-list-item {
 
 .router-link-active {
     background: #e0e0e0;;
+}
+
+.subheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.view {
+    width: -webkit-fill-available;
 }

@@ -7,7 +7,6 @@ import (
 
 func main() {
 	config := config.New()
-	config.FEPath = "./dist/todo"
 	config.Init()
 	server := routes.NewServer(config)
 	server.Init()
