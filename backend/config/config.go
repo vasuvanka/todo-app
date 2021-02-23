@@ -19,7 +19,7 @@ func New() *Config {
 
 // Init - init config
 func (c *Config) Init() {
-	c.DatabaseURI = buildEnvVar("GO_DBURI","mongodb://localhost:27017/todos")
+	c.DatabaseURI = buildEnvVar("GO_DBURI","mongodb://localhost:27017/todo")
 	c.Port = buildEnvVar("GO_PORT", "8080")
 	c.Env = buildEnvVar("GO_ENV","dev")
 	c.FEPath = buildEnvVar("GO_FEPATH","./dist/todo")

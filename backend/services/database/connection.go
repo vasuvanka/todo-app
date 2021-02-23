@@ -2,6 +2,7 @@ package database
 
 import (
 	"log"
+	"time"
 
 	"github.com/globalsign/mgo"
 	"github.com/vasuvanka/todo-app/backend/services/database/collections"
@@ -14,7 +15,7 @@ type Db struct {
 
 //Connect - creates mongodb connection
 func (db *Db) Connect(url string) error {
-	session, err := mgo.Dial(url)
+	session, err := mgo.DialWithTimeout(url,time.Duration(10 * time.Second))
 	if err != nil {
 		return err
 	}
